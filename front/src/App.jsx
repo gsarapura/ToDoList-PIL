@@ -5,11 +5,33 @@ import { BotonFiltrar } from "../components/BotonFiltrar";
 import { Formulario } from "../components/Formulario";
 import { Tarea } from "../components/Tarea";
 
-// Library para id's:
+// Biblioteca para id:
 import { nanoid } from "nanoid";
 
 export const App = (props) => {
   const [tasks, setTasks] = useState(props.tasks);
+  
+  // Marcar como completado o no:
+  function toggleTaskCompleted(id){
+    const updatedTasks = tasks.map((task) => {
+      if (id === task.id) {
+        // Usar object spread para hacer un nuevo objeto.
+        // Modificar el booleano:
+        return {...task, completed: !task.completed}
+
+      }
+      // Si no hay cambios, retornar el objeto original
+      return task;
+    });
+    
+    setTasks(updatedTasks);
+  }
+
+  // Eliminar tarea:
+  function deleteTask(id){
+    const remainingTasks = tasks.filter((task) => id !== task.id);
+    setTasks(remainingTasks)
+  }
 
   // Crear cada <li>:
   const taskList = tasks.map((task) => (
@@ -18,6 +40,8 @@ export const App = (props) => {
       name={ task.name }
       completed= { task.completed }
       key={ task.id }
+      toggleTaskCompleted={ toggleTaskCompleted }
+      deleteTask={ deleteTask }
     />
   ));
   
