@@ -6,3 +6,7 @@ Front: React con JavaScript.
 ``` sh
 npm create vite@latest
 ```
+- Librería nanoid para las keys de los elementos:
+``` sh
+npm install nanoid
+```
