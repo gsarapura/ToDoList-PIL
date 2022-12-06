@@ -1,9 +1,14 @@
+import { useState } from "react";
+
+// Componentes:
 import { BotonFiltrar } from "../components/BotonFiltrar";
 import { Formulario } from "../components/Formulario";
 import { Tarea } from "../components/Tarea";
 
 export const App = (props) => {
-  const taskList = props.tasks?.map((task) => (
+  const [tasks, setTasks] = useState(props.tasks);
+  console.log(tasks)
+  const taskList = tasks.map((task) => (
     <Tarea
       id={task.id}
       name={ task.name }
@@ -11,12 +16,18 @@ export const App = (props) => {
       key={ task.id }
     />
   ));
+  
+  //Función para que el componente hijo envié la tarea:
+  const addTask = (name) => { 
+    const newTask = {id: "id", name, completed: false};
+    setTasks([...tasks, newTask]);
+  }
 
   return (
     <>
       <h1>To Do List</h1>
 
-      <Formulario />
+      <Formulario addTask={ addTask }/>
       
       <BotonFiltrar name= "Mostrar todas las tareas"/>
       <BotonFiltrar name= "Mostrar las tareas por hacer"/>
