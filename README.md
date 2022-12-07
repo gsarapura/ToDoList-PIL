@@ -11,6 +11,10 @@ npm create vite@latest
 npm install nanoid
 ```
 ## Instalación local:
+- Clonar repositorio:
+``` sh
+git clone https://github.com/gustavolens/ToDoList-PIL.git 
+```
 - Ir a la carpeta front y ejecutar:
 ``` sh
 npm install 
