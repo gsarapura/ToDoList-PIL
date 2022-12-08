@@ -18,23 +18,22 @@ export const Formulario = (props) => {
   }
 
   return(
-    <>
-      <form onSubmit={ handleSubmit }>
-        <input  
-          type="text" 
-          placeholder="Ingrese una tarea..." 
-          onChange={ handleChange } 
+    <form onSubmit={ handleSubmit }>
+      <input  
+        type="text" 
+        placeholder="Ingrese una tarea..." 
+        onChange={ handleChange } 
+        autoFocus={ true }
 
-          //Not sure what those do:
-          name="text" 
-          autoComplete="off"
-          value={ name }
-        />
-        
-        <button type="submit"> 
-          Agregar
-        </button>
-      </form>
-    </>
+        //Not sure what those do:
+        name="text" 
+        autoComplete="off"
+        value={ name }
+      />
+      
+      <button type="submit"> 
+        Agregar
+      </button>
+    </form>
   )
 }
