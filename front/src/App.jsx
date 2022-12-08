@@ -8,8 +8,21 @@ import { Tarea } from "../components/Tarea";
 // Biblioteca para id:
 import { nanoid } from "nanoid";
 
+// Botones:
+const FILTER_MAP = {
+  Todas: () => true,
+  Activas: (task) => !task.completed,
+  Completadas: (task) => task.completed
+};
+
+const FILTER_NAMES = Object.keys(FILTER_MAP) // Arreglo para obtener los nombres
+
 export const App = (props) => {
+  // Hook para setear tareas:
   const [tasks, setTasks] = useState(props.tasks);
+
+  // Hooks para setear botones renderizados:
+  const [filter, setFilter] = useState("Todas")
   
   // Marcar como completado o no:
   function toggleTaskCompleted(id){
@@ -45,18 +58,31 @@ export const App = (props) => {
     setTasks(updateNameList);
   }
 
-  // Crear cada <li>:
-  const taskList = tasks.map((task) => (
-    <Tarea
-      id={task.id}
-      name={ task.name }
-      completed= { task.completed }
-      key={ task.id }
-      toggleTaskCompleted={ toggleTaskCompleted }
-      deleteTask={ deleteTask }
-      updateTask={ updateTask }
-    />
+  // Renderizar cada tareas (<li>):
+  const taskList = tasks
+    .filter(FILTER_MAP[filter])
+    .map((task) => (
+      <Tarea
+        id={task.id}
+        name={ task.name }
+        completed= { task.completed }
+        key={ task.id }
+        toggleTaskCompleted={ toggleTaskCompleted }
+        deleteTask={ deleteTask }
+        updateTask={ updateTask }
+      />
   ));
+
+  // Renderizar botones:
+  const filterList = FILTER_NAMES.map((name) => (
+    <BotonFiltrar 
+      key={ name } 
+      name={ name }
+      isPressed={ name === filter }
+      // Envio hook:
+      setFilter={ setFilter }
+    />
+  ))
   
   //Función para que el componente hijo envié la tarea y agregué la tarea a tasks:
   const addTask = (name) => { 
@@ -66,7 +92,10 @@ export const App = (props) => {
 
   // Título para tareas que quedan por hacer:
   const titleNoun = taskList.length == 1 ? 'tarea' : 'tareas'; 
-  const titleHeading = `Hay ${taskList.length} ${titleNoun} por hacer:`
+  const tasksUncompleted = tasks.filter((task) => (task.completed === false)); // Filtrar por incompletas.
+  const titleUncompleted = `Hay ${tasksUncompleted.length} ${titleNoun} por hacer:`
+  const titleCompleted = "Tareas completadas:"
+
 
   return (
     <>
@@ -74,11 +103,9 @@ export const App = (props) => {
 
       <Formulario addTask={ addTask }/>
       
-      <BotonFiltrar name= "Mostrar todas las tareas"/>
-      <BotonFiltrar name= "Mostrar las tareas por hacer"/>
-      <BotonFiltrar name= "Mostrar las tareas completadas"/>
+      { filterList }
 
-      <h2>{ titleHeading }</h2> 
+      <h2>{ titleUncompleted }</h2> 
       <ul>
         { taskList }
       </ul>
