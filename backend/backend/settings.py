@@ -40,7 +40,8 @@ BASE_APPS = [
 ]
 
 LOCAL_APPS = [
-
+    "apps.notes",
+    "apps.users",
 ]
 
 THIRD_APPS = [
