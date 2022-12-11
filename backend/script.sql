@@ -1,3 +1,4 @@
+-- EJEMPLO
 create database todolist;
 use disquería;
 
