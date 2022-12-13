@@ -5,7 +5,12 @@ from rest_framework import serializers
 from apps.notes.models import Note
 
 # Serializer
-class NoteListSerializer(serializers.ModelSerializer):
+class NoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Note
+        fields = '__all__' 
+
+class UserNoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Note
         fields = '__all__'
@@ -15,5 +20,4 @@ class NoteListSerializer(serializers.ModelSerializer):
             'id': instance['id'],
             'name': instance['name'],
             'completed': instance['completed'],
-            'id_user': instance['id_user'],
         }
