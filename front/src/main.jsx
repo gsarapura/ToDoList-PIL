@@ -1,8 +1,15 @@
+// React imports:
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { App } from './App'
 
-import './styles.css'
+// Component imports:
+import { Login } from './Login';
+import { Note } from './Note'
+import { Signup } from './Signup';
+
+// Style imports:
+import './styles.css';
+import 'bootstrap/dist/css/bootstrap.css';
 
 // Esto debería venir del back:
 const DATA = [
@@ -11,8 +18,12 @@ const DATA = [
   { id: "tarea-2", name: "Comprar gorras", completed: false }
 ];
 
+// <Note tasks= { DATA }/>
+//    <Login/>
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App tasks= { DATA }/>
+    <Login/>
+    <Signup/>
+    <Note tasks= { DATA }/>
   </React.StrictMode>
 )

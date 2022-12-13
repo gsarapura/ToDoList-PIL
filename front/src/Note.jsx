@@ -17,7 +17,7 @@ const FILTER_MAP = {
 
 const FILTER_NAMES = Object.keys(FILTER_MAP) // Arreglo para obtener los nombres
 
-export const App = (props) => {
+export const Note = (props) => {
   // Hook para setear tareas:
   const [tasks, setTasks] = useState(props.tasks);
 
