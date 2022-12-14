@@ -1,0 +1,39 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  color: white;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 1.3rem;
+  padding: 20px;
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+}
+
+.label-block {
+  display: block;
+}
+
+.toggle-btn[aria-pressed="true"] {
+  text-decoration: underline;
+  border-color: #4d4d4d;
+ }
+
+
+.form-group{
+  padding: 10px;
+}
+
+.text-end {
+  margin-right: 10px;
+  margin-bottom: 20px;
+  margin-left: 100px;
+}
+
+a {
+  color: white;
+}
