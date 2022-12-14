@@ -2,6 +2,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
+
 // Component imports:
 import { Login } from './Login';
 import { Note } from './Note'
@@ -18,12 +19,29 @@ const DATA = [
   { id: "tarea-2", name: "Comprar gorras", completed: false }
 ];
 
-// <Note tasks= { DATA }/>
-//    <Login/>
+// React Router:
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Login/>,
+  },
+  {
+    path: "/registro",
+    element: <Signup/>,
+  },
+  {
+    path: "/notas",
+    element: <Note tasks= { DATA }/>,
+  },
+]);
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Login/>
-    <Signup/>
-    <Note tasks= { DATA }/>
+    <RouterProvider router={router} />
   </React.StrictMode>
 )

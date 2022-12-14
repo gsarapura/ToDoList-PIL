@@ -13,10 +13,16 @@ export const Login = () => {
           <label for="">Contraseña</label>
           <input className="form-control" type="password" name="password" placeholder="Ingrese contraseña"/>
         </div>
+
+        <span className="text-start">
+          <button type="submit" className="btn btn-light">
+            <a className="link-primary" href="/registro">Registro</a></button> 
+        </span>
        
-        <div className="text-end">
-          <button type="submit" className="btn btn-primary">Ingresar</button> 
-        </div>
+        <span className="text-end">
+          <button type="submit" className="btn btn-primary">
+            <a className="link-light" href="/notas">Ingresar</a></button> 
+        </span>
 
       </form>
     </section>

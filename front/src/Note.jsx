@@ -109,6 +109,8 @@ export const Note = (props) => {
       <ul>
         { taskList }
       </ul>
+
+      <a href="/" className="">Salir</a>
     </>
   );
 }

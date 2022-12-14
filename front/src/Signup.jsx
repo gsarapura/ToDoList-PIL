@@ -30,9 +30,15 @@ export const Signup = () => {
             <input className="form-control" type="password" name="password" placeholder="Ingrese contraseña"/>
           </div>
 
-          <div className="text-end">
-            <button type="submit" className="btn btn-primary">Ingresar</button> 
-          </div>
+          <span className="text-start">
+          <button type="submit" className="btn btn-light">
+            <a className="link-primary" href="/">Volver</a></button> 
+          </span>
+         
+          <span className="text-end">
+            <button type="submit" className="btn btn-primary">
+              <a className="link-light" href="/">Confirmar</a></button> 
+          </span>
 
         </form>
       </section>
