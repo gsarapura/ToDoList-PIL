@@ -26,7 +26,7 @@ export const Signup = () => {
           </div>
 
           <div className="form-group">
-            <label for="">Contraseña</label>
+            <label >Contraseña</label>
             <input className="form-control" type="password" name="password" placeholder="Ingrese contraseña"/>
           </div>
 

@@ -1,5 +1,4 @@
 // React imports:
-import React from 'react'
 import ReactDOM from 'react-dom/client'
 
 
@@ -36,7 +35,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/notas",
-    element: <Note tasks= { DATA }/>,
+    element: <Note tasks={ DATA }/>,
   },
 ]);
 

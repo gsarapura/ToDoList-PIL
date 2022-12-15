@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // Componentes:
 import { BotonFiltrar } from "../components/BotonFiltrar";
@@ -17,7 +17,19 @@ const FILTER_MAP = {
 
 const FILTER_NAMES = Object.keys(FILTER_MAP) // Arreglo para obtener los nombres
 
+import axios from "axios";
+
 export const Note = (props) => {
+  // Axios:
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    axios.get('http://localhost:8000/note/note-user/1/').then((response) =>{
+      setData(response.data);
+    })
+  }, [])
+
+  console.log(data)
   // Hook para setear tareas:
   const [tasks, setTasks] = useState(props.tasks);
 
