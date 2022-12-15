@@ -19,19 +19,17 @@ const FILTER_NAMES = Object.keys(FILTER_MAP) // Arreglo para obtener los nombres
 
 import axios from "axios";
 
-export const Note = (props) => {
-  // Axios:
-  const [data, setData] = useState(null);
+export const Note = () => {
 
+  // Hook para setear tareas:
+  const [tasks, setTasks] = useState([]);
+  
+  // Axios:
   useEffect(() => {
     axios.get('http://localhost:8000/note/note-user/1/').then((response) =>{
-      setData(response.data);
+      setTasks(response.data);
     })
   }, [])
-
-  console.log(data)
-  // Hook para setear tareas:
-  const [tasks, setTasks] = useState(props.tasks);
 
   // Hooks para setear botones renderizados:
   const [filter, setFilter] = useState("Todas")
