@@ -20,17 +20,6 @@ const FILTER_NAMES = Object.keys(FILTER_MAP) // Arreglo para obtener los nombres
 
 export const Note = () => {
 
-  // Hook para setear tareas:
-  const [tasks, setTasks] = useState([]);
-  
-  // Crear contador para useEffect y evitar loop:
-  const [tasksLength, setTasksLength] = useState(0)
-
-  const getCounter = (counter) => {
-    setTasksLength(tasksLength + counter)
-  };
-
-
   // Método GET:
   const baseURL = 'http://localhost:8000/note/note-user/1/' 
   const getUserNotes = async() => {
@@ -42,25 +31,22 @@ export const Note = () => {
     };
   }
 
+  // Hook para setear tareas:
+  const [tasks, setTasks] = useState([]);
+  
+  // Crear contador para useEffect y evitar loop:
+  const [tasksLength, setTasksLength] = useState(0)
+
+  const getCounter = (counter) => {
+    setTasksLength(tasksLength + counter)
+  };
+
   useEffect(() => {
     getUserNotes()
   }, [tasksLength])
 
-  // Hooks para setear botones renderizados:
+  // Hook para setear nombre de botones:
   const [filter, setFilter] = useState("Todas")
-  
-  // Renderizar cada tareas (<li>):
-  const taskList = tasks
-    .filter(FILTER_MAP[filter])
-    .map((task) => (
-      <Tarea
-        id={task.id}
-        name={ task.name }
-        completed= { task.completed }
-        key={ task.id }
-        getCounter={ getCounter }
-      />
-  ));
 
   // Renderizar botones:
   const filterList = FILTER_NAMES.map((name) => (
@@ -73,6 +59,19 @@ export const Note = () => {
     />
   ))
 
+  // Renderizar cada tarea (<li>):
+  const taskList = tasks
+    .filter(FILTER_MAP[filter])
+    .map((task) => (
+      <Tarea
+        id={task.id}
+        name={ task.name }
+        completed= { task.completed }
+        key={ task.id }
+        getCounter={ getCounter }
+      />
+  ));
+
   // Título para tareas que quedan por hacer:
   const tasksUncompleted = tasks.filter((task) => (task.completed === false)); // Filtrar por incompletas.
   const titleNoun = tasksUncompleted.length == 1 ? 'tarea' : 'tareas'; 
@@ -80,7 +79,7 @@ export const Note = () => {
 
   const tasksCompleted = tasks.filter((task) => (task.completed === true ));
   const titleNo = tasksCompleted.length == 1 ? 'tarea completada' : 'tareas completadas'
-  const titleCompleted = `Hay ${tasksCompleted.length} ${titleNo}:`
+  const titleCompleted = `${tasksCompleted.length} ${titleNo}:`
 
   const filterTitle = () => {
     if(filter==='Todas' || filter === 'Activas'){

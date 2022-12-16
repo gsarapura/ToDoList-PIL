@@ -5,20 +5,6 @@ export const Tarea = (props) => {
   // Counter to send to Note for useEffect:
   const counter = 0
 
-  // Delete method:
-  function deleteTask(id){
-    axios
-      .delete(`http://localhost:8000/note/note-detail/${id}/`)
-      .then(response => {
-        props.getCounter(counter + 1)
-        console.log(response.data)
-      })
-      .catch(error => {
-        console.log(error.response.data)
-      })
-  }
-
- 
   // Hook for conditional rendering:
   const [isEditing, setEditing] = useState(false);
 
@@ -30,10 +16,23 @@ export const Tarea = (props) => {
     setNewName(e.target.value);
   }
 
+  // Delete method:
+  async function deleteTask(id){
+    await axios
+      .delete(`http://localhost:8000/note/note-detail/${id}/`)
+      .then(response => {
+        props.getCounter(counter + 1)
+        console.log(response.data)
+      })
+      .catch(error => {
+        console.log(error.response.data)
+      })
+  }
+
   //Put method for name:
-  function handleSubmit(e, id){
+  async function handleSubmit(e, id){
     e.preventDefault();
-    axios
+    await axios
       .put(`http://localhost:8000/note/note-detail/${id}/`, {
         name: newName
       })
@@ -50,16 +49,16 @@ export const Tarea = (props) => {
   }
 
   // Put method for completed:
-   function handleToggle(e, id, name, completed){
+   async function handleToggle(e, id, name, completed){
     e.preventDefault();
-    axios
+    await axios
       .put(`http://localhost:8000/note/note-detail/${id}/`, {
         name: name,
         completed: !completed
       })
       .then(response => {
         props.getCounter(counter + 1)
-        console.log(response)
+        console.log(response.data)
       })
       .catch(error => {
         console.log(error.response.data)
@@ -89,8 +88,8 @@ export const Tarea = (props) => {
       <input 
         id={ props.id } 
         type="checkbox" 
-        defaultChecked = { props.completed } 
-        onChange={ (e) =>  handleToggle(e, props.id, props.name, props.completed) }
+        checked = { props.completed } 
+        onClick={ (e) =>  handleToggle(e, props.id, props.name, props.completed) }
       />
       <label htmlFor={ props.id }>{ props.name }</label>
       <div>
