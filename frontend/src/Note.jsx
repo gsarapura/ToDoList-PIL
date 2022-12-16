@@ -74,10 +74,13 @@ export const Note = () => {
   ))
 
   // Título para tareas que quedan por hacer:
-  const titleNoun = taskList.length == 1 ? 'tarea' : 'tareas'; 
   const tasksUncompleted = tasks.filter((task) => (task.completed === false)); // Filtrar por incompletas.
+  const titleNoun = tasksUncompleted.length == 1 ? 'tarea' : 'tareas'; 
   const titleUncompleted = `Hay ${tasksUncompleted.length} ${titleNoun} por hacer:`
-  const titleCompleted = "Tareas completadas:"
+
+  const tasksCompleted = tasks.filter((task) => (task.completed === true ));
+  const titleNo = tasksCompleted.length == 1 ? 'tarea completada' : 'tareas completadas'
+  const titleCompleted = `Hay ${tasksCompleted.length} ${titleNo}:`
 
   const filterTitle = () => {
     if(filter==='Todas' || filter === 'Activas'){
