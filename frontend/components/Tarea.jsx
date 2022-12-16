@@ -89,7 +89,7 @@ export const Tarea = (props) => {
         id={ props.id } 
         type="checkbox" 
         checked = { props.completed } 
-        onClick={ (e) =>  handleToggle(e, props.id, props.name, props.completed) }
+        onChange={ (e) =>  handleToggle(e, props.id, props.name, props.completed) }
       />
       <label htmlFor={ props.id }>{ props.name }</label>
       <div>
