@@ -11,13 +11,6 @@ import { Signup } from './Signup';
 import './styles.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
-// Esto debería venir del back:
-const DATA = [
-  { id: "tarea-0", name: "Comer", completed: true },
-  { id: "tarea-1", name: "Ir al super", completed: false },
-  { id: "tarea-2", name: "Comprar gorras", completed: false }
-];
-
 // React Router:
 import {
   createBrowserRouter,
