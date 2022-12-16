@@ -5,8 +5,8 @@ import { BotonFiltrar } from "../components/BotonFiltrar";
 import { Formulario } from "../components/Formulario";
 import { Tarea } from "../components/Tarea";
 
-// Biblioteca para id:
-import { nanoid } from "nanoid";
+// Axios:
+import axios from "axios";
 
 // Botones:
 const FILTER_MAP = {
@@ -17,57 +17,38 @@ const FILTER_MAP = {
 
 const FILTER_NAMES = Object.keys(FILTER_MAP) // Arreglo para obtener los nombres
 
-import axios from "axios";
 
 export const Note = () => {
 
   // Hook para setear tareas:
   const [tasks, setTasks] = useState([]);
   
-  // Axios:
+  // Crear contador para useEffect y evitar loop:
+  const [tasksLength, setTasksLength] = useState(0)
+
+  const getCounter = (counter) => {
+    setTasksLength(tasksLength + counter)
+  };
+
+
+  // Método GET:
+  const baseURL = 'http://localhost:8000/note/note-user/1/' 
+  const getUserNotes = async() => {
+    try {
+      const userNotes = await axios.get(baseURL)
+      setTasks(userNotes.data)
+    } catch (error) {
+      console.log(error)
+    };
+  }
+
   useEffect(() => {
-    axios.get('http://localhost:8000/note/note-user/1/').then((response) =>{
-      setTasks(response.data);
-    })
-  }, [])
+    getUserNotes()
+  }, [tasksLength])
 
   // Hooks para setear botones renderizados:
   const [filter, setFilter] = useState("Todas")
   
-  // Marcar como completado o no:
-  function toggleTaskCompleted(id){
-    const updatedTasks = tasks.map((task) => {
-      if (id === task.id) {
-        // Usar object spread para hacer un nuevo objeto.
-        // Modificar el booleano:
-        return {...task, completed: !task.completed}
-
-      }
-      // Si no hay cambios, retornar el objeto original
-      return task;
-    });
-
-    setTasks(updatedTasks);
-  }
-
-  // Eliminar tarea:
-  function deleteTask(id){
-    const remainingTasks = tasks.filter((task) => id !== task.id);
-    setTasks(remainingTasks);
-  }
-
-  // Actualizar tarea:
-  function updateTask(id, newName){
-    const updateNameList = tasks.map((task) => {
-      if (id == task.id){
-        return {...task, name: newName}
-      };
-      return task
-    });
-
-    setTasks(updateNameList);
-  }
-
   // Renderizar cada tareas (<li>):
   const taskList = tasks
     .filter(FILTER_MAP[filter])
@@ -77,9 +58,7 @@ export const Note = () => {
         name={ task.name }
         completed= { task.completed }
         key={ task.id }
-        toggleTaskCompleted={ toggleTaskCompleted }
-        deleteTask={ deleteTask }
-        updateTask={ updateTask }
+        getCounter={ getCounter }
       />
   ));
 
@@ -93,12 +72,6 @@ export const Note = () => {
       setFilter={ setFilter }
     />
   ))
-  
-  //Función para que el componente hijo envié la tarea y agregué la tarea a tasks:
-  const addTask = (name) => { 
-    const newTask = {id: `tarea-${nanoid()}`, name, completed: false};
-    setTasks([...tasks, newTask]);
-  }
 
   // Título para tareas que quedan por hacer:
   const titleNoun = taskList.length == 1 ? 'tarea' : 'tareas'; 
@@ -106,16 +79,27 @@ export const Note = () => {
   const titleUncompleted = `Hay ${tasksUncompleted.length} ${titleNoun} por hacer:`
   const titleCompleted = "Tareas completadas:"
 
-
+  const filterTitle = () => {
+    if(filter==='Todas' || filter === 'Activas'){
+      return titleUncompleted
+    }
+    else if (filter === 'Completadas'){
+      return titleCompleted
+    }
+  }
+  
   return (
     <section className="border rounded bg-light">
       <h1 className="text-center">To Do List</h1>
 
-      <Formulario addTask={ addTask }/>
+      <Formulario 
+        getCounter={ getCounter } 
+      />
+
       
       { filterList }
 
-      <h2>{ titleUncompleted }</h2> 
+      <h2>{ filterTitle() }</h2> 
       <ul>
         { taskList }
       </ul>

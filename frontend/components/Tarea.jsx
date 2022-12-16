@@ -1,6 +1,24 @@
+import axios from "axios";
 import { useState } from "react";
 
 export const Tarea = (props) => {
+  // Counter to send to Note for useEffect:
+  const counter = 0
+
+  // Delete method:
+  function deleteTask(id){
+    axios
+      .delete(`http://localhost:8000/note/note-detail/${id}/`)
+      .then(response => {
+        props.getCounter(counter + 1)
+        console.log(response.data)
+      })
+      .catch(error => {
+        console.log(error.response.data)
+      })
+  }
+
+ 
   // Hook for conditional rendering:
   const [isEditing, setEditing] = useState(false);
 
@@ -12,17 +30,44 @@ export const Tarea = (props) => {
     setNewName(e.target.value);
   }
 
-  function handleSubmit(e){
-    console.log("Estoy en handleSubmit")
+  //Put method for name:
+  function handleSubmit(e, id){
     e.preventDefault();
-    props.updateTask(props.id, newName);
+    axios
+      .put(`http://localhost:8000/note/note-detail/${id}/`, {
+        name: newName
+      })
+      .then(response => {
+        props.getCounter(counter + 1)
+        console.log(response)
+      })
+      .catch(error => {
+        console.log(error.response.data)
+      })
     // Reset
     setNewName("");
     setEditing(false);
   }
 
+  // Put method for completed:
+   function handleToggle(e, id, name, completed){
+    e.preventDefault();
+    axios
+      .put(`http://localhost:8000/note/note-detail/${id}/`, {
+        name: name,
+        completed: !completed
+      })
+      .then(response => {
+        props.getCounter(counter + 1)
+        console.log(response)
+      })
+      .catch(error => {
+        console.log(error.response.data)
+      })
+  }
+
   const editingTemplate = (
-    <form onSubmit={ handleSubmit }>
+    <form onSubmit={ (e) => handleSubmit(e, props.id) }>
       <label htmlFor={ props.id } className="label-tarea">{props.name}</label>
       <input 
         id={ props.id }
@@ -45,12 +90,12 @@ export const Tarea = (props) => {
         id={ props.id } 
         type="checkbox" 
         defaultChecked = { props.completed } 
-        onChange={ () => props.toggleTaskCompleted(props.id) }
+        onChange={ (e) =>  handleToggle(e, props.id, props.name, props.completed) }
       />
       <label htmlFor={ props.id }>{ props.name }</label>
       <div>
         <button type="button" onClick={ () => setEditing(true)}>Editar</button>
-        <button type="button" onClick={ () => props.deleteTask(props.id)}>Eliminar</button>
+        <button type="button" onClick={ () => deleteTask(props.id) }>Eliminar</button>
       </div>
     </> 
     );
