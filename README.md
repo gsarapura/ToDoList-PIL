@@ -40,10 +40,7 @@ python manage.py runserver
 npm create vite@latest
 ```
 ### Bibliotecas:
-- nanoid para las keys de los elementos:
-``` sh
-npm install nanoid
-```
+- Axios para trabajar apis: https://axios-http.com/
 ### Instalación local:
 - Ir a la carpeta front y ejecutar:
 ``` sh
