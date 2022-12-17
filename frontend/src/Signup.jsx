@@ -36,11 +36,11 @@ export const Signup = () => {
 
   return(
     <>
-      <section className="border rounded bg-light">
+      <section className="border rounded bg-light p-2">
         <h1 className="text-center">Registro</h1>
         <form onSubmit={ handleSubmit }>
 
-          <div className="form-group">
+          <div className="form-group mb-2">
             <label >Usuario</label>
             <input 
               className="form-control" 
@@ -51,7 +51,7 @@ export const Signup = () => {
            /> 
           </div>
 
-          <div className="form-group">
+          <div className="form-group mb-2">
             <label >Email</label>
             <input 
               className="form-control" 
@@ -62,7 +62,7 @@ export const Signup = () => {
             /> 
           </div>
 
-          <div className="form-group">
+          <div className="form-group mb-2">
             <label >Nombre (opcional)</label>
             <input 
               className="form-control" 
@@ -73,7 +73,7 @@ export const Signup = () => {
             /> 
           </div>
 
-          <div className="form-group">
+          <div className="form-group mb-2">
             <label >Apellido (opcional)</label>
             <input 
               className="form-control" 
@@ -84,7 +84,7 @@ export const Signup = () => {
             /> 
           </div>
 
-          <div className="form-group">
+          <div className="form-group mb-3">
             <label >Contraseña</label>
             <input 
               className="form-control" 
@@ -95,14 +95,16 @@ export const Signup = () => {
             />
           </div>
 
-          <span className="text-start">
-          <button type="submit" className="btn btn-light">
-            <a className="link-primary" href="/">Volver</a></button> 
-          </span>
-         
-          <span className="text-end">
-            <button type="submit" className="btn btn-primary">Confirmar</button> 
-          </span>
+          <div className="d-flex">
+            <button 
+              type="button" 
+              className="btn btn-light me-auto"
+              onClick={ () => navigate("/")}>Volver</button> 
+            <button 
+              type="submit" 
+              className="btn btn-primary"
+              >Confirmar</button> 
+          </div>
 
         </form>
       </section>

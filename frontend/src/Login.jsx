@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
+  const navigate = useNavigate()
   
   // Capturar info:
   const [loginInfo, setLoginInfo] = useState({
@@ -14,14 +16,19 @@ export const Login = () => {
       [e.target.name]: e.target.value
     })
   }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    navigate("/notas")
+  } 
   
 
   return(
-    <section className="border rounded bg-light">
+    <section className="border rounded bg-light p-3">
       <h1 className="text-center">Ingreso</h1>
-      <form>
+      <form onSubmit= { handleSubmit }>
 
-        <div className="form-group">
+        <div className="form-group mb-2">
           <label >Usuario</label>
           <input 
             className="form-control" 
@@ -32,7 +39,7 @@ export const Login = () => {
           />
         </div>
 
-        <div className="form-group">
+        <div className="form-group mb-3">
           <label >Contraseña</label>
           <input 
             className="form-control" 
@@ -43,15 +50,15 @@ export const Login = () => {
           />
         </div>
 
-        <span className="text-start">
-          <button type="submit" className="btn btn-light">
-            <a className="link-primary" href="/registro">Registro</a></button> 
-        </span>
-       
-        <span className="text-end">
-          <button type="submit" className="btn btn-primary">
-            <a className="link-light" href="/notas">Ingresar</a></button> 
-        </span>
+        <div className="d-flex">
+          <button 
+            type="button" 
+            className="btn btn-dark me-auto"
+            onClick={ () => navigate("/registro") }>Registro</button> 
+          <button 
+            type="submit" 
+            className="btn btn-primary ms-auto">Ingresar</button> 
+        </div>
 
       </form>
     </section>

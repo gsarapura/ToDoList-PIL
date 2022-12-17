@@ -8,6 +8,9 @@ import { Tarea } from "../components/Tarea";
 // Axios:
 import axios from "axios";
 
+// Reactrouter:
+import { useNavigate } from "react-router-dom";
+
 // Botones:
 const FILTER_MAP = {
   Todas: () => true,
@@ -19,6 +22,7 @@ const FILTER_NAMES = Object.keys(FILTER_MAP) // Arreglo para obtener los nombres
 
 
 export const Note = () => {
+  const navigate = useNavigate();
 
   // Método GET:
   const baseURL = 'http://localhost:8000/note/note-user/1/' 
@@ -124,9 +128,12 @@ export const Note = () => {
       </ul>
 
       <div className="d-flex">
-        <a href="/" className="me-auto">Salir</a>
         <button 
-          type="submit" 
+          type="button" 
+          className="btn btn-dark me-auto"
+          onClick={ () => navigate("/")}>Salir</button>
+        <button 
+          type="button" 
           className="btn btn-danger ms-auto"
           onClick={ () => handleUserDelete(9) }>Eliminar cuenta</button> 
       </div>

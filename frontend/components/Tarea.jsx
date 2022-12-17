@@ -67,7 +67,7 @@ export const Tarea = (props) => {
 
   const editingTemplate = (
     <form onSubmit={ (e) => handleSubmit(e, props.id) }>
-      <label htmlFor={ props.id } className="label-tarea">{props.name}</label>
+      <label htmlFor={ props.id } className="label-block mb-1">{props.name}</label>
       <input 
         id={ props.id }
         type="text" 
@@ -75,16 +75,17 @@ export const Tarea = (props) => {
         value={ newName }
         onChange={ handleChange }
         autoFocus={ true }
+        className="mb-2"
       />
       <div>
-        <button type="submit" onClick={ () => setEditing(false) }>Cancelar</button>
-        <button type="submit">Guardar</button>
+        <button className="btn btn-outline-dark btn-sm me-2" type="submit" onClick={ () => setEditing(false) }>Cancelar</button>
+        <button className="btn btn-outline-success btn-sm" type="submit">Guardar</button>
       </div>
     </form>
     );
 
   const viewTemplate = (
-    <> 
+    <section className="mb-2"> 
       <input 
         className="form-check-input me-1"
         id={ props.id } 
@@ -94,10 +95,10 @@ export const Tarea = (props) => {
       />
       <label htmlFor={ props.id }>{ props.name }</label>
       <div>
-        <button type="button" onClick={ () => setEditing(true)}>Editar</button>
-        <button type="button" onClick={ () => deleteTask(props.id) }>Eliminar</button>
+        <button className="btn btn-outline-primary btn-sm me-2"type="button" onClick={ () => setEditing(true)}>Editar</button>
+        <button className="btn btn-outline-danger btn-sm"type="button" onClick={ () => deleteTask(props.id) }>Eliminar</button>
       </div>
-    </> 
+    </section> 
     );
 
   return(
