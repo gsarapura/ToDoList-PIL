@@ -38,7 +38,7 @@ export const Formulario = (props) => {
   }
 
   return(
-    <form onSubmit={ createNote }>
+    <form onSubmit={ createNote } className="mb-2">
       <input  
         type="text" 
         placeholder="Ingrese una tarea..." 
@@ -51,7 +51,7 @@ export const Formulario = (props) => {
         value={ name }
       />
       
-      <button type="submit"> 
+      <button type="submit" className="btn btn-primary ms-2"> 
         Agregar
       </button>
     </form>

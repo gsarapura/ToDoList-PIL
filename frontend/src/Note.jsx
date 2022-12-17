@@ -91,7 +91,7 @@ export const Note = () => {
   }
   
   return (
-    <section className="border rounded bg-light">
+    <section className="border rounded bg-light p-2">
       <h1 className="text-center">To Do List</h1>
 
       <Formulario 
@@ -102,11 +102,15 @@ export const Note = () => {
       { filterList }
 
       <h2>{ filterTitle() }</h2> 
-      <ul>
+      <ul className="list-group-flush">
         { taskList }
       </ul>
 
-      <a href="/" className="">Salir</a>
+      <div className="d-flex">
+        <a href="/" className="me-auto">Salir</a>
+        <button type="submit" className="btn btn-danger ms-auto">Eliminar cuenta</button> 
+      </div>
+
     </section>
   );
 }

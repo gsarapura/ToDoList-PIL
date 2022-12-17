@@ -86,6 +86,7 @@ export const Tarea = (props) => {
   const viewTemplate = (
     <> 
       <input 
+        className="form-check-input me-1"
         id={ props.id } 
         type="checkbox" 
         checked = { props.completed } 
@@ -100,7 +101,7 @@ export const Tarea = (props) => {
     );
 
   return(
-  <li>
+  <li className="list-group-item">
     { isEditing? editingTemplate : viewTemplate }  
   </li>
   );

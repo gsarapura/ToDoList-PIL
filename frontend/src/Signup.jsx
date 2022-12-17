@@ -18,8 +18,6 @@ export const Signup = () => {
       ...signupInfo,
       [e.target.name]: e.target.value
     })
-
-    console.log(signupInfo)
   }
 
   function handleSubmit(e){
