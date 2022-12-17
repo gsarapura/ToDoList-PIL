@@ -31,6 +31,23 @@ export const Note = () => {
     };
   }
 
+  // Método DELETE:
+  const handleUserDelete = async(id) => {
+    let option = confirm("¿Quiere eliminar su cuenta?")
+    if (option){
+      await axios
+        .delete(`http://localhost:8000/user/user-detail/${id}/`)
+        .then(response => {
+          console.log(response.data)
+          alert("Eliminada correctamente.")
+        })
+        .catch(error => {
+          error.response.data
+          alert("Hubo un error.")
+        })
+    }
+  }
+
   // Hook para setear tareas:
   const [tasks, setTasks] = useState([]);
   
@@ -108,7 +125,10 @@ export const Note = () => {
 
       <div className="d-flex">
         <a href="/" className="me-auto">Salir</a>
-        <button type="submit" className="btn btn-danger ms-auto">Eliminar cuenta</button> 
+        <button 
+          type="submit" 
+          className="btn btn-danger ms-auto"
+          onClick={ () => handleUserDelete(9) }>Eliminar cuenta</button> 
       </div>
 
     </section>
