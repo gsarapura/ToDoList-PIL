@@ -27,10 +27,12 @@ export const Signup = () => {
       .post('http://localhost:8000/user/user-list/', signupInfo)
       .then(response => {
         console.log(response)
+        alert("Usuario creado con éxito.")
         navigate("/")
       })
       .catch(error => {
         console.log(error.response.data)
+        alert("Hubo un error.")
       })
   }
 
