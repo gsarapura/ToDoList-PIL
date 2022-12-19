@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import axios from "axios";
+
 export const Login = () => {
   const navigate = useNavigate()
   
@@ -19,7 +21,16 @@ export const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    navigate("/notas")
+    axios
+      .post('http://localhost:8000/user/login/', loginInfo)
+      .then(response => {
+        console.log(response.data)
+        navigate("/notas")
+      })
+      .catch(error => {
+        console.log(error.response.data)
+        alert("Hubo un error de ingreso.")
+      })
   } 
   
 

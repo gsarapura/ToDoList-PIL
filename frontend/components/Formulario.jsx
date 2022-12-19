@@ -14,7 +14,7 @@ export const Formulario = (props) => {
   }
   
   //id_user:
-  const id_user = 1
+  const id_user = 4
   //Axios:
   function createNote(e){
     // Prevent from refreshing entire page:

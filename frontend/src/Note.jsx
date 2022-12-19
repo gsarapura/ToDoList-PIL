@@ -25,7 +25,7 @@ export const Note = () => {
   const navigate = useNavigate();
 
   // Método GET:
-  const baseURL = 'http://localhost:8000/note/note-user/1/' 
+  const baseURL = 'http://localhost:8000/note/note-user/4/' 
   const getUserNotes = async() => {
     try {
       const userNotes = await axios.get(baseURL)
@@ -112,7 +112,7 @@ export const Note = () => {
   }
   
   return (
-    <section className="border rounded bg-light p-2">
+    <section className="border rounded bg-light p-3">
       <h1 className="text-center">To Do List</h1>
 
       <Formulario 

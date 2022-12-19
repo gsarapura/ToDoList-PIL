@@ -38,7 +38,7 @@ export const Signup = () => {
 
   return(
     <>
-      <section className="border rounded bg-light p-2">
+      <section className="border rounded bg-light p-3">
         <h1 className="text-center">Registro</h1>
         <form onSubmit={ handleSubmit }>
 
