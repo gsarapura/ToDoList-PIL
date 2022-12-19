@@ -25,7 +25,7 @@ source env/bin/activate
 pip install -r requirements.txt 
 ``` 
 ### Ejecutar proyecto:
-- Antes, hay que crear una base de datos y, en el archivo settings.py, configurar acorde a usuario, contraseña, nombre de BD, etc:
+- Antes, importar base de datos 'todolist.sql' y, en el archivo settings.py, configurar acorde a usuario, contraseña y nombre de BD:
 - Luego, ejecutar Django:
 ``` sh
 python manage.py runserver
