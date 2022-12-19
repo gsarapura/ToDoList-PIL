@@ -3,10 +3,14 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
+# Authorization imports
+
+
 # Serializers imports
 from apps.users.api.serializers import (
     UserSerializer,
-    UserListSerializer
+    UserListSerializer,
+    UserLoginSerializer
 )
 
 # Models import
@@ -81,3 +85,15 @@ def user_detail_view(request, pk):
             {'message': 'Usuario eliminado correctamente'},
             status=status.HTTP_200_OK
         )
+
+@api_view(['POST'])
+def login_view(request):
+    "Autenticar usuario para login."
+    if request.method == 'POST':
+        login_serializer = UserLoginSerializer(data=request.data)
+        if login_serializer.is_valid():
+        
+            # Filtrar por nombre de usuario:
+            
+            return Response(data=login_serializer.data, status=status.HTTP_202_ACCEPTED)
+    return Response(login_serializer.errors, status=status.HTTP_401_UNAUTHORIZED)

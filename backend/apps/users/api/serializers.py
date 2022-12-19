@@ -47,3 +47,11 @@ class UserListSerializer(serializers.ModelSerializer):
             'name': instance['name'],
             'last_name': instance['last_name'],
         }
+
+class UserLoginSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username']
+ 
+
+    
