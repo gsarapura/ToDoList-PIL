@@ -1,0 +1,15 @@
+html, body {
+  font-size: 1.2rem;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.label-block {
+  display: block;
+}
+
+.toggle-btn[aria-pressed="true"] {
+  text-decoration: underline;
+  border-color: #4d4d4d;
+ }
