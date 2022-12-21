@@ -1,5 +1,7 @@
-html, body {
+html{
+  height: 100%;
   font-size: 1.2rem;
+  margin: 0;
   padding: 20px;
   display: flex;
   justify-content: center;

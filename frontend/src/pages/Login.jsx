@@ -2,8 +2,24 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
+import { 
+  Box,
+  Button, 
+  Heading, 
+  Input,
+  FormControl, 
+  FormLabel,
+  Flex,
+  Spacer,
+  InputGroup,
+  InputRightElement} from "@chakra-ui/react";
 
 export const Login = () => {
+  // Show password:
+  const [show, setShow] = useState(false);
+  const handleClick = () => setShow(!show);
+
+  // React router:
   const navigate = useNavigate()
   
   // Capturar info:
@@ -21,6 +37,7 @@ export const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    console.log("hola")
     axios
       .post('http://localhost:8000/user/login/', loginInfo)
       .then(response => {
@@ -35,43 +52,52 @@ export const Login = () => {
   
 
   return(
-    <section className="border rounded bg-light p-3">
-      <h1 className="text-center">Ingreso</h1>
-      <form onSubmit= { handleSubmit }>
+    <Box as="main" borderColor="gray.200" p={6} boxShadow="2xl" borderRadius="lg">
+      <Heading as="h1" textAlign="center">Ingreso</Heading>
 
-        <div className="form-group mb-2">
-          <label >Usuario</label>
-          <input 
-            className="form-control" 
-            type="text" 
-            name="username" 
-            placeholder="Ingrese usuario"
-            onChange={ handleChange }
-          />
-        </div>
+      <FormControl onSubmit= { handleSubmit }>
 
-        <div className="form-group mb-3">
-          <label >Contraseña</label>
-          <input 
+        <FormLabel>Usuario</FormLabel>
+        <Input 
+          type="text" 
+          name="username" 
+          placeholder="Ingrese usuario"
+          onChange={ handleChange }
+          mb={6}
+        />
+
+
+        <FormLabel >Contraseña</FormLabel>
+        <InputGroup size="md">
+          <Input 
             className="form-control" 
-            type="password" 
+            type={ show ? "text" : "password" } 
             name="password" 
             placeholder="Ingrese contraseña"
             onChange={ handleChange }
+            mb={6}
           />
-        </div>
+          <InputRightElement width='4.5rem'>
+            <Button h="1.75rem" size="sm" onClick = { handleClick }>
+            { show ? 'Hide': 'Show'}
+            </Button>
+          </InputRightElement>
+        </InputGroup>
 
-        <div className="d-flex">
-          <button 
+        <Flex>
+          <Button 
+            colorScheme="teal"
+            variant="outline"
             type="button" 
-            className="btn btn-dark me-auto"
-            onClick={ () => navigate("/registro") }>Registro</button> 
-          <button 
+            onClick={ () => navigate("/registro") }>Registro</Button> 
+          <Spacer/>
+          <Button 
+            colorScheme="teal"
             type="submit" 
-            className="btn btn-primary ms-auto">Ingresar</button> 
-        </div>
+            >Ingresar</Button> 
+        </Flex>
 
-      </form>
-    </section>
+      </FormControl>
+    </Box>
   );
 };

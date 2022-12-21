@@ -9,7 +9,6 @@ import { Signup } from './pages/Signup';
 
 // Style imports:
 import './main.css';
-import 'bootstrap/dist/css/bootstrap.css';
 
 // React Router:
 import {
@@ -17,25 +16,28 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
+import { Box, ChakraProvider } from '@chakra-ui/react';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route 
-          path="/"
-          element={ <Login/> }
-        />
-        <Route 
-          path="/registro"
-          element={ <Signup/> }
-        />
-        <Route
-          path="/notas"
-          element={ <Note/> }
-        />
-      </Routes>
-    </BrowserRouter>
+    <ChakraProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route 
+              path="/"
+              element={ <Login/> }
+            />
+            <Route 
+              path="/registro"
+              element={ <Signup/> }
+            />
+            <Route
+              path="/notas"
+              element={ <Note/> }
+            />
+          </Routes>
+        </BrowserRouter>
+    </ChakraProvider>
   </React.StrictMode>
 )
