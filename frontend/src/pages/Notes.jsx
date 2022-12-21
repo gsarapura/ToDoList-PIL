@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
 // Componentes:
-import { BotonFiltrar } from "../components/BotonFiltrar";
-import { Formulario } from "../components/Formulario";
-import { Tarea } from "../components/Tarea";
+import { BotonFiltrar } from "../../components/Notes/BotonFiltrar/BotonFiltrar";
+import { FormularioTarea } from "../../components/Notes/FormularioTarea/FormularioTarea";
+import { Tarea } from "../../components/Notes/Tarea/Tarea";
 
 // Axios:
 import axios from "axios";
@@ -25,13 +25,13 @@ export const Note = () => {
   const navigate = useNavigate();
 
   // Método GET:
-  const baseURL = 'http://localhost:8000/note/note-user/4/' 
+  const baseURL = 'http://localhost:8000/note/note-user/2/' 
   const getUserNotes = async() => {
     try {
       const userNotes = await axios.get(baseURL)
       setTasks(userNotes.data)
     } catch (error) {
-      console.log(error)
+      console.log(error.response.data)
     };
   }
 
@@ -115,7 +115,7 @@ export const Note = () => {
     <section className="border rounded bg-light p-3">
       <h1 className="text-center">To Do List</h1>
 
-      <Formulario 
+      <FormularioTarea 
         getCounter={ getCounter } 
       />
 

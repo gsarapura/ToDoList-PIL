@@ -24,7 +24,7 @@ export const Login = () => {
     axios
       .post('http://localhost:8000/user/login/', loginInfo)
       .then(response => {
-        console.log(response.data)
+        console.log(response.data) //Context usuario tal. (Cookie)
         navigate("/notas")
       })
       .catch(error => {

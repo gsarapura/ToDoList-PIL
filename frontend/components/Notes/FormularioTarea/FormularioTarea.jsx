@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 
-export const Formulario = (props) => {
+export const FormularioTarea = (props) => {
   const [name, setName] = useState("")
 
   // Counter to send to Note for useEffect:
@@ -14,7 +14,7 @@ export const Formulario = (props) => {
   }
   
   //id_user:
-  const id_user = 4
+  const id_user = 5
   //Axios:
   function createNote(e){
     // Prevent from refreshing entire page:
