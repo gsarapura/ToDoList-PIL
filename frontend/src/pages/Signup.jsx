@@ -1,115 +1,116 @@
 import axios from "axios";
-import { useState } from "react";
+import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
+import { 
+  Box, 
+  FormControl, 
+  FormLabel, 
+  Input,
+  Heading,
+  Flex,
+  Spacer,
+  Button } from "@chakra-ui/react";
 
 
 export const Signup = () => {
   const navigate = useNavigate()
-  const [signupInfo, setSignupInfo] = useState({
-    username: "",
-    email: "",
-    name: "",
-    last_name: "",
-    password: ""
-  })
 
-  function handleChange(e){
-    setSignupInfo({
-      ...signupInfo,
-      [e.target.name]: e.target.value
-    })
-  }
-
-  function handleSubmit(e){
-    e.preventDefault()
-
-    axios
-      .post('http://localhost:8000/user/user-list/', signupInfo)
-      .then(response => {
-        console.log(response)
-        alert("Usuario creado con éxito.")
-        navigate("/")
-      })
-      .catch(error => {
-        console.log(error.response.data)
-        alert("Hubo un error.")
-      })
-  }
+  // Fotmil:
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      email: "",
+      name: "",
+      last_name: "",
+      password: ""
+    },
+    onSubmit: (values) => {
+      axios
+        .post('http://localhost:8000/user/user-list/', values)
+        .then(response => {
+          console.log(response)
+          alert("Usuario creado con éxito.")
+          navigate("/")
+        })
+        .catch(error => {
+          console.log(error.response.data)
+          alert("Hubo un error.")
+        })
+    } 
+  });
 
   return(
-    <>
-      <section className="border rounded bg-light p-3">
-        <h1 className="text-center">Registro</h1>
-        <form onSubmit={ handleSubmit }>
+    <Box as="main" borderColor="gray.200" p={6} boxShadow="2xl">
+      <Heading as="h1" textAlign="center">Registro</Heading>
 
-          <div className="form-group mb-2">
-            <label >Usuario</label>
-            <input 
-              className="form-control" 
+      <form onSubmit={ formik.handleSubmit }>
+        <FormControl isRequired>
+          <FormLabel>Usuario</FormLabel>
+            <Input 
               type="text" 
               name="username" 
               placeholder="Ingrese usuario"
-              onChange={ handleChange }
-           /> 
-          </div>
+              onChange={ formik.handleChange }
+              mb={6}
+            /> 
 
-          <div className="form-group mb-2">
-            <label >Email</label>
-            <input 
-              className="form-control" 
+          <FormLabel>Email</FormLabel>
+            <Input 
               type="email" 
               name="email" 
-              placeholder="Ingrese email" 
-              onChange={ handleChange }
+              placeholder="Ingrese email"
+              onChange={ formik.handleChange }
+              mb={6}
             /> 
-          </div>
 
-          <div className="form-group mb-2">
-            <label >Nombre (opcional)</label>
-            <input 
-              className="form-control" 
+        </FormControl>
+
+        <FormControl>
+          <FormLabel>Nombre</FormLabel>
+            <Input 
               type="text" 
               name="name" 
               placeholder="Ingrese nombre"
-              onChange={ handleChange }
+              onChange={ formik.handleChange }
+              mb={6}
             /> 
-          </div>
 
-          <div className="form-group mb-2">
-            <label >Apellido (opcional)</label>
-            <input 
-              className="form-control" 
+          <FormLabel>Apellido</FormLabel>
+            <Input 
               type="text" 
               name="last_name" 
               placeholder="Ingrese apellido"
-              onChange={ handleChange }
+              onChange={ formik.handleChange }
+              mb={6}
             /> 
-          </div>
+        </FormControl>
 
-          <div className="form-group mb-3">
-            <label >Contraseña</label>
-            <input 
-              className="form-control" 
+
+        <FormControl isRequired>
+          <FormLabel>Contraseña</FormLabel>
+            <Input 
               type="password" 
               name="password" 
               placeholder="Ingrese contraseña"
-              onChange={ handleChange }
-            />
-          </div>
+              onChange={ formik.handleChange }
+              mb={6}
+            /> 
+        </FormControl>
 
-          <div className="d-flex">
-            <button 
-              type="button" 
-              className="btn btn-light me-auto"
-              onClick={ () => navigate("/")}>Volver</button> 
-            <button 
-              type="submit" 
-              className="btn btn-primary"
-              >Confirmar</button> 
-          </div>
+        <Flex>
+          <Button 
+            colorScheme="teal"
+            variant="outline"
+            type="button" 
+            onClick={ () => navigate("/") }>Volver</Button> 
+          <Spacer/>
+          <Button 
+            colorScheme="teal"
+            type="submit" 
+            >Confirmar</Button> 
+        </Flex>
 
-        </form>
-      </section>
-    </>
+      </form>
+    </Box>
   );
 };
