@@ -5,7 +5,7 @@ html{
   padding: 20px;
   display: flex;
   justify-content: center;
-  background-image: url("../public/background.svg");
+  background-image: url("/public/background.svg");
   background-attachment: fixed;
   background-size: cover;
 }
