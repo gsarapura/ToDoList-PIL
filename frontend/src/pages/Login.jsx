@@ -52,7 +52,7 @@ export const Login = () => {
   
 
   return(
-    <Box as="main" borderColor="gray.200" p={6} boxShadow="2xl" borderRadius="lg">
+    <Box as="main" borderColor="gray.200" p={6} boxShadow="2xl">
       <Heading as="h1" textAlign="center">Ingreso</Heading>
 
       <FormControl onSubmit= { handleSubmit }>
