@@ -10,6 +10,13 @@ import axios from "axios";
 
 // Reactrouter:
 import { useNavigate } from "react-router-dom";
+import { 
+  Box,
+  Button,
+  Flex,
+  Heading, 
+  List, 
+  Spacer } from "@chakra-ui/react";
 
 // Botones:
 const FILTER_MAP = {
@@ -112,8 +119,8 @@ export const Note = () => {
   }
   
   return (
-    <section className="border rounded bg-light p-3">
-      <h1 className="text-center">To Do List</h1>
+    <Box as="main" p={4}>
+      <Heading as="h1" textAlign="center" mb={5}>To Do list</Heading>
 
       <FormularioTarea 
         getCounter={ getCounter } 
@@ -122,22 +129,25 @@ export const Note = () => {
       
       { filterList }
 
-      <h2>{ filterTitle() }</h2> 
-      <ul className="list-group-flush">
+      <Heading as="h2" mb={4}>{ filterTitle() }</Heading>
+      <List >
         { taskList }
-      </ul>
+      </List>
 
-      <div className="d-flex">
-        <button 
+      <Flex>
+        <Button
+          colorScheme="teal"
+          variant="outline"
           type="button" 
-          className="btn btn-dark me-auto"
-          onClick={ () => navigate("/")}>Salir</button>
-        <button 
-          type="button" 
-          className="btn btn-danger ms-auto"
-          onClick={ () => handleUserDelete(9) }>Eliminar cuenta</button> 
-      </div>
+          onClick={ () => navigate("/") }>Salir</Button> 
+        <Spacer/>
+        <Button 
+          colorScheme="red"
+          type="submit" 
+          onClick={ () => handleUserDelete(9) }
+          >Eliminar cuenta</Button> 
+      </Flex>
 
-    </section>
+    </Box>
   );
 }
