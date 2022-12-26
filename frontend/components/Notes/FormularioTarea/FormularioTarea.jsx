@@ -1,59 +1,69 @@
+import { 
+  Button,
+  FormControl,
+  Input,
+  InputGroup,
+  InputRightElement } from "@chakra-ui/react";
+
 import axios from "axios";
-import { useState } from "react";
+import { Form, Formik, useFormik } from "formik";
 
 export const FormularioTarea = (props) => {
-  const [name, setName] = useState("")
-
   // Counter to send to Note for useEffect:
   const counter = 0
 
-  
-  // Every key you pressed is set to name:
-  function handleChange(e){
-    setName(e.target.value);
-  }
-  
   //id_user:
-  const id_user = 5
-  //Axios:
-  function createNote(e){
-    // Prevent from refreshing entire page:
-    e.preventDefault();
-    // Send data to DB:
-    axios
-      .post(`http://localhost:8000/note/note-user/${id_user}/`, {
-        name: name,
-        id_user: id_user
-      })
-      .then(response => {
-        // Send counter to Note:
-        props.getCounter(counter + 1)
-        console.log(response.data)
-      })
-      .catch(error => {
-        console.log(error.response.data)
-      })
-    // Reset:
-    setName("");
-  }
+  const id_user = 1
+
+  // Formik:
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      id_user: id_user
+    },
+    onSubmit: (values, {resetForm}) => {
+      console.log("a")
+      axios
+        .post(`http://localhost:8000/note/note-user/${id_user}/`, values)
+        .then(response => {
+          // Send counter to Note:
+          props.getCounter(counter + 1)
+          console.log(response.data)
+          resetForm();
+        })
+        .catch(error => {
+          console.log(error.response.data)
+        })
+    } 
+  })
 
   return(
-    <form onSubmit={ createNote } className="mb-2">
-      <input  
+    <form onSubmit={ formik.handleSubmit }> 
+    <FormControl mb={4} >
+      <InputGroup>
+      <Input  
         type="text" 
+        name="name" 
         placeholder="Ingrese una tarea..." 
-        onChange={ handleChange } 
+        onChange={ formik.handleChange } 
         autoFocus={ true }
+        value={formik.values.name}
 
         //Not sure what those do:
-        name="text" 
-        autoComplete="off"
-        value={ name }
       />
-      
-      <button type="submit" className="btn btn-primary ms-2"> 
-        Agregar
-      </button>
+     
+      <InputRightElement w='4.5 rem'>
+        <Button 
+          colorScheme="linkedin"
+          variant="outline"
+          type="submit" 
+          disabled={props.isSubmitting}
+
+          >Agregar
+        </Button>
+      </InputRightElement>
+      </InputGroup>
+    </FormControl>
     </form>
   )
 }
