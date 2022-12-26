@@ -6,7 +6,7 @@ import {
   InputRightElement } from "@chakra-ui/react";
 
 import axios from "axios";
-import { Form, Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 
 export const FormularioTarea = (props) => {
   // Counter to send to Note for useEffect:
@@ -39,7 +39,7 @@ export const FormularioTarea = (props) => {
 
   return(
     <form onSubmit={ formik.handleSubmit }> 
-    <FormControl mb={4} >
+    <FormControl mb={2} >
       <InputGroup>
       <Input  
         type="text" 

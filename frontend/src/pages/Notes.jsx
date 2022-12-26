@@ -32,7 +32,7 @@ export const Note = () => {
   const navigate = useNavigate();
 
   // Método GET:
-  const baseURL = 'http://localhost:8000/note/note-user/2/' 
+  const baseURL = 'http://localhost:8000/note/note-user/1/' 
   const getUserNotes = async() => {
     try {
       const userNotes = await axios.get(baseURL)
@@ -126,15 +126,16 @@ export const Note = () => {
         getCounter={ getCounter } 
       />
 
-      
+      <Flex justifyContent="center" mb={2}>
       { filterList }
+      </Flex>
 
-      <Heading as="h2" mb={4}>{ filterTitle() }</Heading>
+      <Heading as="h3" mb={2}>{ filterTitle() }</Heading>
       <List >
         { taskList }
       </List>
 
-      <Flex>
+      <Flex mt={4}>
         <Button
           colorScheme="teal"
           variant="outline"

@@ -1,9 +1,23 @@
+import { 
+  Box,
+  Button,
+  Checkbox,
+  Flex, 
+  Input} from "@chakra-ui/react";
 import axios from "axios";
+import { useFormik } from "formik";
 import { useState } from "react";
 
 export const Tarea = (props) => {
   // Counter to send to Note for useEffect:
   const counter = 0
+
+  // Formik:
+  const formik = useFormik({
+    initialValues: {
+
+    }
+  })
 
   // Hook for conditional rendering:
   const [isEditing, setEditing] = useState(false);
@@ -66,39 +80,67 @@ export const Tarea = (props) => {
   }
 
   const editingTemplate = (
-    <form onSubmit={ (e) => handleSubmit(e, props.id) }>
-      <label htmlFor={ props.id } className="label-block mb-1">{props.name}</label>
-      <input 
-        id={ props.id }
-        type="text" 
-        name="newName" 
-        value={ newName }
-        onChange={ handleChange }
-        autoFocus={ true }
-        className="mb-2"
-      />
-      <div>
-        <button className="btn btn-outline-dark btn-sm me-2" type="submit" onClick={ () => setEditing(false) }>Cancelar</button>
-        <button className="btn btn-outline-success btn-sm" type="submit">Guardar</button>
-      </div>
-    </form>
+    <Box bg="gray.100" p={1} mb={2}>
+      <form onSubmit={ (e) => handleSubmit(e, props.id) }>
+        <Box as="label" fontSize="lg" htmlFor={ props.id }>{ props.name }</Box>
+        <Input 
+          id={ props.id }
+          type="text" 
+          name="newName" 
+          size="sm"
+          value={ newName }
+          onChange={ handleChange }
+          autoFocus={ true }
+        />
+      <Flex mt={3} pb={2}>
+        <Button
+          colorScheme="orange"
+          variant="ghost"
+          type="button" 
+          size="sm"
+          me={3}
+          onClick={ () => setEditing(false) }>Cancelar</Button> 
+        <Button 
+          colorScheme="blue"
+          variant="ghost"
+          size="sm"
+          type="submit" 
+          >Guardar</Button> 
+      </Flex>
+      </form>
+    </Box>
     );
 
   const viewTemplate = (
-    <section className="mb-2"> 
-      <input 
-        className="form-check-input me-1"
+    <Box as="section" mb={2}>
+      <Checkbox 
         id={ props.id } 
-        type="checkbox" 
-        checked = { props.completed } 
+        colorScheme="green"
+        size="lg"
+        defaultChecked = { props.completed } 
         onChange={ (e) =>  handleToggle(e, props.id, props.name, props.completed) }
-      />
-      <label htmlFor={ props.id }>{ props.name }</label>
-      <div>
-        <button className="btn btn-outline-primary btn-sm me-2"type="button" onClick={ () => setEditing(true)}>Editar</button>
-        <button className="btn btn-outline-danger btn-sm"type="button" onClick={ () => deleteTask(props.id) }>Eliminar</button>
-      </div>
-    </section> 
+      >
+      <label htmlFor={ props.id }></label>{ props.name }
+      </Checkbox>
+
+      <Flex mt={2}>
+        <Button
+          colorScheme="blue"
+          variant="outline"
+          type="button" 
+          size="sm"
+          me={3}
+          onClick={ () => setEditing(true) }>Editar</Button> 
+        <Button 
+          colorScheme="red"
+          variant="outline"
+          size="sm"
+          type="submit" 
+          onClick={ () => deleteTask(props.id)}
+          >Eliminar</Button> 
+      </Flex>
+
+    </Box>
     );
 
   return(
