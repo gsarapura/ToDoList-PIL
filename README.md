@@ -52,11 +52,11 @@ python manage.py runserver
 ``` sh
 npm create vite@latest
 ```
-## Framework CSS:
-- Bootstrap 5: https://getbootstrap.com/
 ### Bibliotecas:
 - Axios para trabajar apis: https://axios-http.com/
 - React Router para enrutamiento: https://reactrouter.com/en/main
+- Chakra UI para estilos: https://chakra-ui.com/
+- Formik para formularios: https://formik.org/
 ### Instalación local:
 - Ir a la carpeta front y ejecutar:
 ``` sh
