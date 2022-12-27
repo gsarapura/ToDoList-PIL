@@ -44,8 +44,10 @@ export const Login = () => {
   });
   
   return(
-    <Box as="main" borderColor="gray.200" p={6} boxShadow="2xl">
+    <Box as="main" id="white-background" borderRadius="xl" p={6} boxShadow="2xl">
+
       <Heading as="h1" textAlign="center">Ingreso</Heading>
+
       <FormControl as="form" onSubmit= { formik.handleSubmit }>
         <FormLabel>Usuario</FormLabel>
         <Input 
@@ -53,17 +55,18 @@ export const Login = () => {
           name="username" 
           placeholder="Ingrese usuario"
           onChange={ formik.handleChange }
+          value={ formik.values.username }
           mb={6}
         />
 
         <FormLabel >Contraseña</FormLabel>
         <InputGroup>
           <Input 
-            className="form-control" 
             type={ show ? "text" : "password" } 
             name="password" 
             placeholder="Ingrese contraseña"
             onChange={ formik.handleChange }
+            value={ formik.values.password }
             mb={6}
           />
           <InputRightElement width='4.5rem'>
@@ -87,6 +90,7 @@ export const Login = () => {
         </Flex>
 
       </FormControl>
+
     </Box>
   );
 };
