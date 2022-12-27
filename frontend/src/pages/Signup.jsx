@@ -9,13 +9,24 @@ import {
   Heading,
   Flex,
   Spacer,
-  Button } from "@chakra-ui/react";
+  Button, 
+  FormErrorMessage,
+  VStack} from "@chakra-ui/react";
 
 
 export const Signup = () => {
   const navigate = useNavigate()
+  
+  // Formik validation:
+  const validate = values => {
+    const errors = {};
+    if (values.password.length < 8){
+      errors.password = "Debe ser de al menos 8 carácteres."
+    }
+    return errors
+  }
 
-  // Fotmil:
+  // Formik:
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -24,6 +35,7 @@ export const Signup = () => {
       last_name: "",
       password: ""
     },
+    validate,
     onSubmit: (values) => {
       axios
         .post('http://localhost:8000/user/user-list/', values)
@@ -40,76 +52,88 @@ export const Signup = () => {
   });
 
   return(
-    <Box as="main" borderColor="gray.200" p={6} boxShadow="2xl">
-      <Heading as="h1" textAlign="center">Registro</Heading>
+    <Box as="main" id="white-background" borderRadius="xl" p={6} boxShadow="2xl">
+      <Heading as="h1" textAlign="center" mb={4}>Registro</Heading>
 
       <form onSubmit={ formik.handleSubmit }>
-        <FormControl isRequired>
-          <FormLabel>Usuario</FormLabel>
+        <VStack spacing={6} align="flex-start"> 
+          <FormControl isRequired >
+            <FormLabel htmlFor="username">Usuario</FormLabel>
             <Input 
+              id="username"
               type="text" 
               name="username" 
               placeholder="Ingrese usuario"
               onChange={ formik.handleChange }
-              mb={6}
+              value={ formik.values.username }
             /> 
+          </FormControl>
 
-          <FormLabel>Email</FormLabel>
+          <FormControl isRequired>
+            <FormLabel>Email</FormLabel>
             <Input 
+              id="email"
               type="email" 
               name="email" 
               placeholder="Ingrese email"
               onChange={ formik.handleChange }
-              mb={6}
+              values={ formik.values.email }
             /> 
+          </FormControl>
 
-        </FormControl>
-
-        <FormControl>
-          <FormLabel>Nombre</FormLabel>
+          <FormControl>
+            <FormLabel>Nombre</FormLabel>
             <Input 
+              id="name"
               type="text" 
               name="name" 
               placeholder="Ingrese nombre"
               onChange={ formik.handleChange }
-              mb={6}
+              value={ formik.values.name }
             /> 
+          </FormControl>
 
-          <FormLabel>Apellido</FormLabel>
+          <FormControl>
+            <FormLabel>Apellido</FormLabel>
             <Input 
+              id="last_name"
               type="text" 
               name="last_name" 
               placeholder="Ingrese apellido"
               onChange={ formik.handleChange }
-              mb={6}
+              value={ formik.values.last_name }
             /> 
-        </FormControl>
+          </FormControl>
 
-
-        <FormControl isRequired>
-          <FormLabel>Contraseña</FormLabel>
+          <FormControl isRequired isInvalid={ formik.errors.password }>
+            <FormLabel>Contraseña</FormLabel>
             <Input 
+              id="password"
               type="password" 
               name="password" 
               placeholder="Ingrese contraseña"
               onChange={ formik.handleChange }
-              mb={6}
+              value={ formik.values.password }
             /> 
-        </FormControl>
+            {formik.errors.password ? <FormErrorMessage mb={-4}>{formik.errors.password}</FormErrorMessage> : null}
+          </FormControl>
+          
+          <FormControl>
+            <Flex>
+              <Button 
+                colorScheme="teal"
+                variant="outline"
+                type="button" 
+                onClick={ () => navigate("/") }>Volver</Button> 
+              <Spacer/>
+              <Button 
+                colorScheme="teal"
+                type="submit" 
+                >Confirmar</Button> 
+            </Flex>
+          </FormControl>
 
-        <Flex>
-          <Button 
-            colorScheme="teal"
-            variant="outline"
-            type="button" 
-            onClick={ () => navigate("/") }>Volver</Button> 
-          <Spacer/>
-          <Button 
-            colorScheme="teal"
-            type="submit" 
-            >Confirmar</Button> 
-        </Flex>
-
+        </VStack>
       </form>
     </Box>
   );
