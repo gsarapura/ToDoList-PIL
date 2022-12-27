@@ -1,13 +1,23 @@
+html, body{
+  height: 100%
+}
+
 html{
-  height: fit-content;
-  font-size: 1.2rem;
-  margin: 0;
-  padding: 20px;
+  font-size: 1.1rem;
+}
+
+body{
+  padding-top: 20px;
   display: flex;
   justify-content: center;
-  background-image: url("/background.svg");
+  align-items: flex-start;
+  background-image: url("/background.svg") !important;
   background-attachment: fixed;
-  background-size: cover;
+  background-size: cover; 
+}
+
+#white-background {
+  background: #f0f8ff !important;
 }
 
 .label-block {
