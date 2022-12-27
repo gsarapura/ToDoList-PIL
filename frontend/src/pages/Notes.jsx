@@ -10,13 +10,16 @@ import axios from "axios";
 
 // Reactrouter:
 import { useNavigate } from "react-router-dom";
+
+// Chakra UI:
 import { 
   Box,
   Button,
   Flex,
   Heading, 
   List, 
-  Spacer } from "@chakra-ui/react";
+  Spacer, 
+  VStack} from "@chakra-ui/react";
 
 // Botones:
 const FILTER_MAP = {
@@ -26,7 +29,6 @@ const FILTER_MAP = {
 };
 
 const FILTER_NAMES = Object.keys(FILTER_MAP) // Arreglo para obtener los nombres
-
 
 export const Note = () => {
   const navigate = useNavigate();
@@ -119,36 +121,42 @@ export const Note = () => {
   }
   
   return (
-    <Box as="main" p={4}>
-      <Heading as="h1" textAlign="center" mb={5}>To Do list</Heading>
+    <Box as="main" id="white-background" borderRadius="xl" boxShadow="2xl" w="470px" p={4}>
+      <VStack spacing={3} align="center">
 
-      <FormularioTarea 
-        getCounter={ getCounter } 
-      />
+        <Heading as="h1" mb={2}>To Do list</Heading>
 
-      <Flex justifyContent="center" mb={2}>
-      { filterList }
-      </Flex>
+        <FormularioTarea 
+          getCounter={ getCounter } 
+          
+        />
 
-      <Heading as="h3" mb={2}>{ filterTitle() }</Heading>
-      <List >
-        { taskList }
-      </List>
+        <Flex justify="center">
+        { filterList }
+        </Flex>
 
-      <Flex mt={4}>
-        <Button
-          colorScheme="teal"
-          variant="outline"
-          type="button" 
-          onClick={ () => navigate("/") }>Salir</Button> 
-        <Spacer/>
-        <Button 
-          colorScheme="red"
-          type="submit" 
-          onClick={ () => handleUserDelete(9) }
-          >Eliminar cuenta</Button> 
-      </Flex>
+        <Heading as="h3">{ filterTitle() }</Heading>
 
+        <Flex alignSelf="flex-start" ps={14}>
+          <List >
+            { taskList }
+          </List>
+        </Flex>
+
+        <Flex w="100%" pt={2}>
+          <Button
+            colorScheme="teal"
+            type="button" 
+            onClick={ () => navigate("/") }>Salir</Button> 
+          <Spacer/>
+          <Button 
+            colorScheme="red"
+            type="submit" 
+            onClick={ () => handleUserDelete(9) }
+            >Eliminar cuenta</Button> 
+        </Flex>
+
+      </VStack>
     </Box>
   );
 }

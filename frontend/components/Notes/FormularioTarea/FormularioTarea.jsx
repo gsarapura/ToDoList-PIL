@@ -38,32 +38,30 @@ export const FormularioTarea = (props) => {
   })
 
   return(
-    <form onSubmit={ formik.handleSubmit }> 
-    <FormControl mb={2} >
-      <InputGroup>
-      <Input  
-        type="text" 
-        name="name" 
-        placeholder="Ingrese una tarea..." 
-        onChange={ formik.handleChange } 
-        autoFocus={ true }
-        value={formik.values.name}
+    <form onSubmit={ formik.handleSubmit } style= {{ width: "100%"}}> 
+      <FormControl >
+        <InputGroup>
+        <Input  
+          type="text" 
+          name="name" 
+          placeholder="Ingrese una tarea..." 
+          onChange={ formik.handleChange } 
+          value={formik.values.name}
+          autoFocus={ true }
+        />
+       
+        <InputRightElement w='4.5 rem'>
+          <Button 
+            colorScheme="linkedin"
+            variant="outline"
+            type="submit" 
+            disabled={props.isSubmitting}
 
-        //Not sure what those do:
-      />
-     
-      <InputRightElement w='4.5 rem'>
-        <Button 
-          colorScheme="linkedin"
-          variant="outline"
-          type="submit" 
-          disabled={props.isSubmitting}
-
-          >Agregar
-        </Button>
-      </InputRightElement>
-      </InputGroup>
-    </FormControl>
+            >Agregar
+          </Button>
+        </InputRightElement>
+        </InputGroup>
+      </FormControl>
     </form>
   )
 }

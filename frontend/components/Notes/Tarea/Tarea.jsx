@@ -5,19 +5,11 @@ import {
   Flex, 
   Input} from "@chakra-ui/react";
 import axios from "axios";
-import { useFormik } from "formik";
 import { useState } from "react";
 
 export const Tarea = (props) => {
   // Counter to send to Note for useEffect:
   const counter = 0
-
-  // Formik:
-  const formik = useFormik({
-    initialValues: {
-
-    }
-  })
 
   // Hook for conditional rendering:
   const [isEditing, setEditing] = useState(false);
@@ -117,6 +109,7 @@ export const Tarea = (props) => {
         id={ props.id } 
         colorScheme="green"
         size="lg"
+        variant="outline"
         defaultChecked = { props.completed } 
         onChange={ (e) =>  handleToggle(e, props.id, props.name, props.completed) }
       >
