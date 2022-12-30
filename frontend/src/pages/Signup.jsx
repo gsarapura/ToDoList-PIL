@@ -11,7 +11,7 @@ import {
   Spacer,
   Button, 
   FormErrorMessage,
-  VStack} from "@chakra-ui/react";
+  VStack } from "@chakra-ui/react";
 
 
 export const Signup = () => {
@@ -20,8 +20,20 @@ export const Signup = () => {
   // Formik validation:
   const validate = values => {
     const errors = {};
-    if (values.password.length < 8){
+    if (!values.username) {
+      errors.username = 'Requerido.'; 
+    }
+
+    if (!values.password) {
+      errors.password = 'Requerido.'; 
+    } else if (values.password.length < 8){
       errors.password = "Debe ser de al menos 8 carácteres."
+    }
+
+    if (!values.email) {
+      errors.email = 'Requerido.'; 
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+      errors.email = 'Dirección de email inválido.';
     }
     return errors
   }
@@ -35,7 +47,6 @@ export const Signup = () => {
       last_name: "",
       password: ""
     },
-    validate,
     onSubmit: (values) => {
       axios
         .post('http://localhost:8000/user/user-list/', values)
@@ -48,7 +59,8 @@ export const Signup = () => {
           console.log(error.response.data)
           alert("Hubo un error.")
         })
-    } 
+    },
+    validate,
   });
 
   return(
@@ -57,7 +69,7 @@ export const Signup = () => {
 
       <form onSubmit={ formik.handleSubmit }>
         <VStack spacing={6} align="flex-start"> 
-          <FormControl isRequired >
+          <FormControl isRequired isInvalid={ formik.errors.username && formik.touched.username }>
             <FormLabel htmlFor="username">Usuario</FormLabel>
             <Input 
               id="username"
@@ -67,9 +79,14 @@ export const Signup = () => {
               onChange={ formik.handleChange }
               value={ formik.values.username }
             /> 
+            {
+              formik.errors.username
+              ? <FormErrorMessage mb={-4}>{formik.errors.username}</FormErrorMessage> 
+              : null
+            } 
           </FormControl>
 
-          <FormControl isRequired>
+          <FormControl isRequired isInvalid={ formik.errors.email && formik.touched.email}>
             <FormLabel>Email</FormLabel>
             <Input 
               id="email"
@@ -78,7 +95,12 @@ export const Signup = () => {
               placeholder="Ingrese email"
               onChange={ formik.handleChange }
               values={ formik.values.email }
-            /> 
+            />
+            {
+              formik.errors.email
+              ? <FormErrorMessage mb={-4}>{formik.errors.email}</FormErrorMessage> 
+              : null
+            } 
           </FormControl>
 
           <FormControl>
@@ -105,7 +127,7 @@ export const Signup = () => {
             /> 
           </FormControl>
 
-          <FormControl isRequired isInvalid={ formik.errors.password }>
+          <FormControl isRequired isInvalid={ formik.errors.password && formik.touched.password }>
             <FormLabel>Contraseña</FormLabel>
             <Input 
               id="password"
@@ -115,7 +137,11 @@ export const Signup = () => {
               onChange={ formik.handleChange }
               value={ formik.values.password }
             /> 
-            {formik.errors.password ? <FormErrorMessage mb={-4}>{formik.errors.password}</FormErrorMessage> : null}
+            {
+              formik.errors.password 
+              ? <FormErrorMessage mb={-4}>{formik.errors.password}</FormErrorMessage> 
+              : null
+            }
           </FormControl>
           
           <FormControl>
