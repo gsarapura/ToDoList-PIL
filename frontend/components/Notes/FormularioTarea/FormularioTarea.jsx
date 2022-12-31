@@ -5,13 +5,9 @@ import {
   InputGroup,
   InputRightElement } from "@chakra-ui/react";
 
-import axios from "axios";
 import { useFormik } from "formik";
 
 export const FormularioTarea = (props) => {
-  // Counter to send to Note for useEffect:
-  const counter = 0
-
   //id_user:
   const id_user = 1
 
@@ -22,18 +18,8 @@ export const FormularioTarea = (props) => {
       id_user: id_user
     },
     onSubmit: (values, {resetForm}) => {
-      console.log("a")
-      axios
-        .post(`http://localhost:8000/note/note-user/${id_user}/`, values)
-        .then(response => {
-          // Send counter to Note:
-          props.getCounter(counter + 1)
-          console.log(response.data)
-          resetForm();
-        })
-        .catch(error => {
-          console.log(error.response.data)
-        })
+      props.addTask(values)
+      resetForm();
     } 
   })
 
