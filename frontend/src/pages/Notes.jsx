@@ -33,18 +33,7 @@ const FILTER_NAMES = Object.keys(FILTER_MAP) // Arreglo para obtener los nombres
 export const Note = () => {
   const navigate = useNavigate();
 
-  // Método GET:
-  const baseURL = 'http://localhost:8000/note/note-user/1/' 
-  const getUserNotes = async() => {
-    try {
-      const userNotes = await axios.get(baseURL)
-      setTasks(userNotes.data)
-    } catch (error) {
-      console.log(error.response.data)
-    };
-  }
-
-  // Método DELETE:
+  // Eliminar cuenta:
   const handleUserDelete = async(id) => {
     let option = confirm("¿Quiere eliminar su cuenta?")
     if (option){
@@ -61,23 +50,8 @@ export const Note = () => {
     }
   }
 
-  // Hook para setear tareas:
-  const [tasks, setTasks] = useState([]);
-  
-  // Crear contador para useEffect y evitar loop:
-  const [tasksLength, setTasksLength] = useState(0)
-
-  const getCounter = (counter) => {
-    setTasksLength(tasksLength + counter)
-  };
-
-  useEffect(() => {
-    getUserNotes()
-  }, [tasksLength])
-
   // Hook para setear nombre de botones:
   const [filter, setFilter] = useState("Todas")
-
   // Renderizar botones:
   const filterList = FILTER_NAMES.map((name) => (
     <BotonFiltrar 
@@ -88,6 +62,57 @@ export const Note = () => {
       setFilter={ setFilter }
     />
   ))
+
+  // Hook para setear tareas:
+  const [tasks, setTasks] = useState([]);
+  // Obtener tareas de la BD:
+  const baseURL = 'http://localhost:8000/note/note-user/1/' 
+  const getUserNotes = async() => {
+    try {
+      const userNotes = await axios.get(baseURL)
+      setTasks(userNotes.data)
+    } catch (error) {
+      console.log(error.response.data)
+    };
+  }
+
+  // Hook para guardar notas temporales y luego enviarlas si se confirma:
+  const [tempTasks, setTempTasks] = useState([])
+  // Agregar una nota de manera temporal sin afectar la BD:
+  const addTask = (values) => {
+    const newTask = { 
+      name: values.name,
+      id_user: values.id_user,
+      completed: false,
+    };
+    setTasks([...tasks, newTask])
+    setTempTasks([...tempTasks, newTask])
+  }
+  // Enviar notas a la BD:
+  const confirmTasks = () => {
+    const option = confirm("¿Desea guardar cambios?");
+    if(option){
+      tempTasks.map((taskToConfirm) => {
+        axios
+          .post(`http://localhost:8000/note/note-user/1/`, taskToConfirm)
+          .then(response => {
+            console.log(response.data)
+          })
+          .catch(error => {
+            console.log(error.response.data)
+          })
+      })
+    }
+  }
+  
+  // Crear contador para useEffect y evitar loop:
+  const [tasksLength, setTasksLength] = useState(0)
+  const getCounter = (counter) => {
+    setTasksLength(tasksLength + counter)
+  };
+  useEffect(() => {
+    getUserNotes()
+  }, [tasksLength])
 
   // Renderizar cada tarea (<li>):
   const taskList = tasks
@@ -128,7 +153,7 @@ export const Note = () => {
 
         <FormularioTarea 
           getCounter={ getCounter } 
-          
+          addTask={ addTask } 
         />
 
         <Flex justify="center">
@@ -142,6 +167,11 @@ export const Note = () => {
             { taskList }
           </List>
         </Flex>
+
+        <Button 
+          colorScheme="purple"
+          onClick={ () => confirmTasks(tempTasks) }
+        >Confirmar cambios</Button>
 
         <Flex w="100%" pt={2}>
           <Button
