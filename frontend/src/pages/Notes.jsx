@@ -21,13 +21,15 @@ import {
   Spacer, 
   VStack} from "@chakra-ui/react";
 
+// Nanoid:
+import { nanoid } from "nanoid";
+
 // Botones:
 const FILTER_MAP = {
   Todas: () => true,
   Activas: (task) => !task.completed,
   Completadas: (task) => task.completed
 };
-
 const FILTER_NAMES = Object.keys(FILTER_MAP) // Arreglo para obtener los nombres
 
 export const Note = () => {
@@ -81,6 +83,7 @@ export const Note = () => {
   // Agregar una nota de manera temporal sin afectar la BD:
   const addTask = (values) => {
     const newTask = { 
+      id: nanoid(),
       name: values.name,
       id_user: values.id_user,
       completed: false,
@@ -92,19 +95,13 @@ export const Note = () => {
   const confirmTasks = () => {
     const option = confirm("¿Desea guardar cambios?");
     if(option){
-      tempTasks.map((taskToConfirm) => {
-        axios
-          .post(`http://localhost:8000/note/note-user/1/`, taskToConfirm)
-          .then(response => {
-            console.log(response.data)
-          })
-          .catch(error => {
-            console.log(error.response.data)
-          })
-      })
-    }
+      axios
+        .all(tempTasks.map(taskToConfirm => axios.post(`http://localhost:8000/note/note-user/1/`, taskToConfirm)))
+        .then( (response)=> {console.log(response.data); alert("Éxitos."); setTasksLength(tasksLength+1)} )
+        .catch( (error) => console.log(error.response.data) )
+      }
   }
-  
+
   // Crear contador para useEffect y evitar loop:
   const [tasksLength, setTasksLength] = useState(0)
   const getCounter = (counter) => {
@@ -170,7 +167,7 @@ export const Note = () => {
 
         <Button 
           colorScheme="purple"
-          onClick={ () => confirmTasks(tempTasks) }
+          onClick={ () => confirmTasks() }
         >Confirmar cambios</Button>
 
         <Flex w="100%" pt={2}>
