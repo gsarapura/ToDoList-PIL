@@ -38,17 +38,7 @@ export const Tarea = (props) => {
   //Put method for name:
   async function handleSubmit(e, id){
     e.preventDefault();
-    await axios
-      .put(`http://localhost:8000/note/note-detail/${id}/`, {
-        name: newName
-      })
-      .then(response => {
-        props.getCounter(counter + 1)
-        console.log(response)
-      })
-      .catch(error => {
-        console.log(error.response.data)
-      })
+    props.updateTask(id, newName) 
     // Reset
     setNewName("");
     setEditing(false);

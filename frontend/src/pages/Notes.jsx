@@ -91,15 +91,28 @@ export const Note = () => {
     setTasks([...tasks, newTask])
     setTempTasks([...tempTasks, newTask])
   }
+  // Editar nombre de una tarea:
+  const updateTask = (id, newName) => {
+    const updatedTasksList = tasks.map(task => {
+      if (task.id === id){ 
+        return  {...task, name: newName} 
+      };
+      return task
+    })
+    setTasks(updatedTasksList)
+    setTempTasks(updatedTasksList)
+  }
   // Enviar notas a la BD:
-  const confirmTasks = () => {
+  const confirmTasks = async () => {
     const option = confirm("¿Desea guardar cambios?");
     if(option){
-      axios
-        .all(tempTasks.map(taskToConfirm => axios.post(`http://localhost:8000/note/note-user/1/`, taskToConfirm)))
-        .then( (response)=> {console.log(response.data); alert("Éxitos."); setTasksLength(tasksLength+1)} )
+      await axios
+        .all(tempTasks.map(taskToConfirm => 
+          axios.post(`http://localhost:8000/note/note-user/1/`, taskToConfirm)))
+        .then( ()=> {alert("Tareas temporales cargadas.")} )
         .catch( (error) => console.log(error.response.data) )
-      }
+    setTasksLength(tasksLength + 1)
+    }
   }
 
   // Crear contador para useEffect y evitar loop:
@@ -121,6 +134,7 @@ export const Note = () => {
         completed= { task.completed }
         key={ task.id }
         getCounter={ getCounter }
+        updateTask={ updateTask }
       />
   ));
 
