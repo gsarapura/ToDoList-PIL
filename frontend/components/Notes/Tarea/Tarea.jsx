@@ -45,21 +45,21 @@ export const Tarea = (props) => {
   }
 
   // Put method for completed:
-   async function handleToggle(e, id, name, completed){
-    e.preventDefault();
-    await axios
-      .put(`http://localhost:8000/note/note-detail/${id}/`, {
-        name: name,
-        completed: !completed
-      })
-      .then(response => {
-        props.getCounter(counter + 1)
-        console.log(response.data)
-      })
-      .catch(error => {
-        console.log(error.response.data)
-      })
-  }
+  //  async function handleToggle(e, id, name, completed){
+  //   e.preventDefault();
+  //   await axios
+  //     .put(`http://localhost:8000/note/note-detail/${id}/`, {
+  //       name: name,
+  //       completed: !completed
+  //     })
+  //     .then(response => {
+  //       props.getCounter(counter + 1)
+  //       console.log(response.data)
+  //     })
+  //     .catch(error => {
+  //       console.log(error.response.data)
+  //     })
+  // }
 
   const editingTemplate = (
     <Box bg="gray.100" p={1} mb={2}>
@@ -101,7 +101,7 @@ export const Tarea = (props) => {
         size="lg"
         variant="outline"
         defaultChecked = { props.completed } 
-        onChange={ (e) =>  handleToggle(e, props.id, props.name, props.completed) }
+        onChange={ () => props.toggleTaskCompleted(props.id) }
       >
       <label htmlFor={ props.id }></label>{ props.name }
       </Checkbox>

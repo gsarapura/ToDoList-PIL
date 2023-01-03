@@ -138,9 +138,34 @@ export const Note = () => {
       }
     })
   }
+  // Hook para guardar notas registras en la BD (toggle):
+  const [toggleTasks, setToggleTasks] = useState([])
+  // Marcar como completado o no:
+  const toggleTaskCompleted = (id) => {
+    const updatedTasksList = tasks.map(task => {
+      if(task.id === id){
+        return {...task, completed: !task.completed}
+      }
+      return task
+    })
+    
+    // Se actualiza para renderizar. No hay cambios en la BD.
+    setTasks(updatedTasksList)
+
+    // Marcar como completado o no las notas temporales. Se envía por método GET. 
+    const newTempList = updatedTasksList.filter(task => typeof task.id === "string")
+    setTempTasks(newTempList)
+
+    // Marcar como completado o no las notas registradas en la BD. Se envía por método PUT.
+    updatedTasksList.map(task => {
+      if(isFinite(task.id) && task.id === id){
+        setToggleTasks([...toggleTasks, task])
+        }
+      })
+  }
   // Enviar notas a la BD:
   const confirmTasks = async () => {
-    console.log(tasksToDelete)
+    console.log(toggleTasks)
     const option = confirm("¿Desea guardar cambios?");
     if(option){
       // Enviar notas temporales (con o sin nombre modificado):
@@ -166,6 +191,18 @@ export const Note = () => {
             axios.delete(`http://localhost:8000/note/note-detail/${taskToDelete.id}/`)))
           .then(() => { alert("Notas eliminadas"); setTasksToDelete({}) })
           .catch(error => console.log(error.response.data))
+      }
+      // Marcar notas como completadas o no:
+      if(toggleTasks.length > 0){
+        await axios
+          .all(toggleTasks.map(toggleTask => {
+            axios.put(`http://localhost:8000/note/note-detail/${toggleTask.id}/`, {
+              name: toggleTask.name,
+              completed: toggleTask.completed 
+              })
+            }))
+          .then(() => {alert("Notas actualizadas (toggle)."); setToggleTasks([]) })
+          .catch(error => console.log(error.response.data) )
       }
     } else if(!option){
       // Esto cumple lo que hace "pass" en Python => No hacer nada xd. 
@@ -196,6 +233,7 @@ export const Note = () => {
         getCounter={ getCounter }
         updateTask={ updateTask }
         deleteTask={ deleteTask }
+        toggleTaskCompleted={ toggleTaskCompleted }
       />
   ));
 
