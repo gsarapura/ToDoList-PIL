@@ -36,7 +36,7 @@ export const Tarea = (props) => {
   }
 
   //Put method for name:
-  async function handleSubmit(e, id){
+  function handleSubmit(e, id){
     e.preventDefault();
     props.updateTask(id, newName) 
     // Reset

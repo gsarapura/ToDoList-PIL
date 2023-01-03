@@ -78,8 +78,11 @@ export const Note = () => {
     };
   }
 
+  // Hook para nombre nuevo de tareas que están en la BD:
+  const [newNameTasks, setNewNameTasks] = useState([])
   // Hook para guardar notas temporales y luego enviarlas si se confirma:
   const [tempTasks, setTempTasks] = useState([])
+
   // Agregar una nota de manera temporal sin afectar la BD:
   const addTask = (values) => {
     const newTask = { 
@@ -91,7 +94,7 @@ export const Note = () => {
     setTasks([...tasks, newTask])
     setTempTasks([...tempTasks, newTask])
   }
-  // Editar nombre de una tarea:
+  // Editar nombre de una tarea. Hay 3 side effects: setTasks, setNewNameTasks y setTempTasks (not recommended?)
   const updateTask = (id, newName) => {
     const updatedTasksList = tasks.map(task => {
       if (task.id === id){ 
@@ -99,19 +102,42 @@ export const Note = () => {
       };
       return task
     })
+    // Se actualiza para renderizar. No hay cambios en la BD.
     setTasks(updatedTasksList)
-    setTempTasks(updatedTasksList)
+
+    // Se actualiza el nombre de notas registradas en la BD. Se envía por método PUT.
+    updatedTasksList.map(task => {
+      if(isFinite(task.id) && task.id === id){
+        setNewNameTasks([...newNameTasks, task])
+        }
+      })
+
+    // Se actualiza el nombre de las notas temporales. Se envía por método GET. 
+    const newList = updatedTasksList.filter(task => typeof task.id === "string")
+    setTempTasks(newList)
   }
+ 
   // Enviar notas a la BD:
   const confirmTasks = async () => {
     const option = confirm("¿Desea guardar cambios?");
     if(option){
-      await axios
-        .all(tempTasks.map(taskToConfirm => 
-          axios.post(`http://localhost:8000/note/note-user/1/`, taskToConfirm)))
-        .then( ()=> {alert("Tareas temporales cargadas.")} )
-        .catch( (error) => console.log(error.response.data) )
-    setTasksLength(tasksLength + 1)
+      // Enviar notas temporales (con o sin nombre modificado):
+      if(tempTasks.length > 0){
+        await axios
+          .all(tempTasks.map(taskToConfirm => 
+            axios.post(`http://localhost:8000/note/note-user/1/`, taskToConfirm)))
+          .then( ()=> {alert("Tareas temporales cargadas."); setTempTasks([])} )
+          .catch( (error) => console.log(error.response.data) )
+      }
+      // Actualizar nombre de notas registradas en la BD:
+      if(newNameTasks.length > 0){
+        await axios
+          .all(newNameTasks.map(nameToConfirm => 
+            axios.put(`http://localhost:8000/note/note-detail/${nameToConfirm.id}/`, {name: nameToConfirm.name})))
+          .then(() => {alert("Nombres modificados"); setNewNameTasks([])})
+          .catch((error) => console.log(error.response.data))
+     }
+      setTasksLength(tasksLength + 1)
     }
   }
 
