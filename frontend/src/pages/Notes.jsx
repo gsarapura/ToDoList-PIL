@@ -120,10 +120,15 @@ export const Note = () => {
   // Eliminar nota temporal:
   const deleteTask = (id) => {
     const remainingTaskList = tasks.filter(task => id !== task.id)
+    // Se actualiza para renderizar. No hay cambios en la BD.
     setTasks(remainingTaskList)
+    // Eliminar tareas temporales:
+    const cleanRemaining = remainingTaskList.filter(task => !isFinite(task.id))
+    setTempTasks(cleanRemaining)
   }
   // Enviar notas a la BD:
   const confirmTasks = async () => {
+    console.log(tempTasks)
     const option = confirm("¿Desea guardar cambios?");
     if(option){
       // Enviar notas temporales (con o sin nombre modificado):
