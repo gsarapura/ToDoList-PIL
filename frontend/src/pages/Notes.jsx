@@ -117,6 +117,11 @@ export const Note = () => {
     setTempTasks(newList)
   }
  
+  // Eliminar nota temporal:
+  const deleteTask = (id) => {
+    const remainingTaskList = tasks.filter(task => id !== task.id)
+    setTasks(remainingTaskList)
+  }
   // Enviar notas a la BD:
   const confirmTasks = async () => {
     const option = confirm("¿Desea guardar cambios?");
@@ -161,6 +166,7 @@ export const Note = () => {
         key={ task.id }
         getCounter={ getCounter }
         updateTask={ updateTask }
+        deleteTask={ deleteTask }
       />
   ));
 
