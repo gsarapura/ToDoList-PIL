@@ -23,17 +23,17 @@ export const Tarea = (props) => {
   }
 
   // Delete method:
-  async function deleteTask(id){
-    await axios
-      .delete(`http://localhost:8000/note/note-detail/${id}/`)
-      .then(response => {
-        props.getCounter(counter + 1)
-        console.log(response.data)
-      })
-      .catch(error => {
-        console.log(error.response.data)
-      })
-  }
+  // async function deleteTask(id){
+  //   await axios
+  //     .delete(`http://localhost:8000/note/note-detail/${id}/`)
+  //     .then(response => {
+  //       props.getCounter(counter + 1)
+  //       console.log(response.data)
+  //     })
+  //     .catch(error => {
+  //       console.log(error.response.data)
+  //     })
+  // }
 
   //Put method for name:
   function handleSubmit(e, id){
@@ -119,7 +119,7 @@ export const Tarea = (props) => {
           variant="outline"
           size="sm"
           type="submit" 
-          onClick={ () => deleteTask(props.id)}
+          onClick={ () => props.deleteTask(props.id)}
           >Eliminar</Button> 
       </Flex>
 

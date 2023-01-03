@@ -94,6 +94,7 @@ export const Note = () => {
     setTasks([...tasks, newTask])
     setTempTasks([...tempTasks, newTask])
   }
+
   // Editar nombre de una tarea. Hay 3 side effects: setTasks, setNewNameTasks y setTempTasks (not recommended?)
   const updateTask = (id, newName) => {
     const updatedTasksList = tasks.map(task => {
@@ -105,30 +106,41 @@ export const Note = () => {
     // Se actualiza para renderizar. No hay cambios en la BD.
     setTasks(updatedTasksList)
 
+    // Se actualiza el nombre de las notas temporales. Se envía por método GET. 
+    const newTempList = updatedTasksList.filter(task => typeof task.id === "string")
+    setTempTasks(newTempList)
+
     // Se actualiza el nombre de notas registradas en la BD. Se envía por método PUT.
     updatedTasksList.map(task => {
       if(isFinite(task.id) && task.id === id){
         setNewNameTasks([...newNameTasks, task])
         }
       })
-
-    // Se actualiza el nombre de las notas temporales. Se envía por método GET. 
-    const newList = updatedTasksList.filter(task => typeof task.id === "string")
-    setTempTasks(newList)
   }
  
-  // Eliminar nota temporal:
+  // Hook para guardar las notas de la BD por eliminar.
+  const [tasksToDelete, setTasksToDelete] = useState([])
+  // Eliminar nota. Caso similar a la función anterior (side effects):
   const deleteTask = (id) => {
     const remainingTaskList = tasks.filter(task => id !== task.id)
+
     // Se actualiza para renderizar. No hay cambios en la BD.
     setTasks(remainingTaskList)
+
     // Eliminar tareas temporales:
-    const cleanRemaining = remainingTaskList.filter(task => !isFinite(task.id))
-    setTempTasks(cleanRemaining)
+    const deleteTempTaskList = remainingTaskList.filter(task => !isFinite(task.id))
+    setTempTasks(deleteTempTaskList)
+
+    // Guardar notas registradas en la BD:
+    tasks.map(task => {
+      if (isFinite(id) && task.id === id){
+        setTasksToDelete([...tasksToDelete, task])
+      }
+    })
   }
   // Enviar notas a la BD:
   const confirmTasks = async () => {
-    console.log(tempTasks)
+    console.log(tasksToDelete)
     const option = confirm("¿Desea guardar cambios?");
     if(option){
       // Enviar notas temporales (con o sin nombre modificado):
@@ -136,19 +148,31 @@ export const Note = () => {
         await axios
           .all(tempTasks.map(taskToConfirm => 
             axios.post(`http://localhost:8000/note/note-user/1/`, taskToConfirm)))
-          .then( ()=> {alert("Tareas temporales cargadas."); setTempTasks([])} )
-          .catch( (error) => console.log(error.response.data) )
+          .then(()=> { alert("Tareas temporales cargadas."); setTempTasks([]) } )
+          .catch(error => console.log(error.response.data) )
       }
       // Actualizar nombre de notas registradas en la BD:
       if(newNameTasks.length > 0){
         await axios
           .all(newNameTasks.map(nameToConfirm => 
             axios.put(`http://localhost:8000/note/note-detail/${nameToConfirm.id}/`, {name: nameToConfirm.name})))
-          .then(() => {alert("Nombres modificados"); setNewNameTasks([])})
-          .catch((error) => console.log(error.response.data))
-     }
-      setTasksLength(tasksLength + 1)
-    }
+          .then(() => { alert("Nombres modificados"); setNewNameTasks([]) })
+          .catch(error => console.log(error.response.data))
+      }
+      // Eliminar notas registradas en la BD:
+      if(tasksToDelete.length > 0){
+        await axios 
+          .all(tasksToDelete.map(taskToDelete => 
+            axios.delete(`http://localhost:8000/note/note-detail/${taskToDelete.id}/`)))
+          .then(() => { alert("Notas eliminadas"); setTasksToDelete({}) })
+          .catch(error => console.log(error.response.data))
+      }
+    } else if(!option){
+      // Esto cumple lo que hace "pass" en Python => No hacer nada xd. 
+    } else {
+        alert("***No hay cambios por realizar.***")
+      }
+    setTasksLength(tasksLength + 1)
   }
 
   // Crear contador para useEffect y evitar loop:
